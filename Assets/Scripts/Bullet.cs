@@ -21,8 +21,8 @@ public class Bullet : MonoBehaviour
         rb.AddForce(force_x, force_y, 0, ForceMode.VelocityChange); //瞬間的に弾に力を加える(質量無視)
     }
 
-    void OnCollisionEnter()
+    /*void OnCollisionEnter()
     {
         Destroy(this.gameObject);
-    }
+    }*/
 }
