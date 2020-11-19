@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -8,7 +9,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody>();
-        //Shot(5f, 50f);
+        TimeOut(5000);
     }
 
     public void Shot(float speed, float radian)
@@ -21,8 +22,15 @@ public class Bullet : MonoBehaviour
         rb.AddForce(force_x, force_y, 0, ForceMode.VelocityChange); //瞬間的に弾に力を加える(質量無視)
     }
 
-    /*void OnCollisionEnter()
+    async void TimeOut(int time)
+    {
+        await Task.Delay(time);
+        Destroy(this.gameObject);
+    }
+
+    /*void OnTriggerEnter()
     {
         Destroy(this.gameObject);
     }*/
+    //ゲームタグを指定すること！弾同士が衝突します！
 }
