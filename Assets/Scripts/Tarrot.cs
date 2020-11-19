@@ -13,7 +13,7 @@ public class Tarrot : MonoBehaviour {
     void Update () {
         float z;
         transform.RotateAround (center.transform.position, transform.forward, speed * Time.deltaTime); //回転
-        z = this.transform.rotation.z * 180;
+        z = this.transform.localEulerAngles.z;
         Debug.Log(z);
         if (Input.GetKey (KeyCode.LeftArrow) && speed < 0 || Input.GetKey (KeyCode.RightArrow) && speed > 0) speed = -speed;
         if (Input.GetKey (KeyCode.Return)) {
