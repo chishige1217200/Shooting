@@ -4,7 +4,6 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     float speed = 0.05f;
-    bool shiftFlag = false;
 
     void Update ()
     {
