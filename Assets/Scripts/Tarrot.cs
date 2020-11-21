@@ -18,9 +18,10 @@ public class Tarrot : MonoBehaviour
         z = this.transform.localEulerAngles.z;
         //Debug.Log(z);
         if (Input.GetKey (KeyCode.LeftArrow) && speed < 0 || Input.GetKey (KeyCode.RightArrow) && speed > 0) speed = -speed;
+        if (Input.GetKey (KeyCode.UpArrow) && speed < 0 || Input.GetKey (KeyCode.DownArrow) && speed > 0) speed = -speed;
         if (Input.GetKey (KeyCode.Return))
         {
-            if(!shotFlag) MakeBullet(5f, z);
+            if(!shotFlag) MakeBullet(10f, z);
         }
     }
 
