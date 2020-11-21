@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public GameObject Die;
     float speed = 0.05f; //標準移動速度
 
     void Update ()
@@ -48,4 +49,16 @@ public class Player : MonoBehaviour
 
         speed = 0.05f; //移動速度初期化（標準移動速度に従う）
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.tag == "Enemy" || other.tag == "EnemyBullet")
+        {
+            Instantiate(Die);
+            Debug.Log("Clash");
+            Destroy(this.gameObject);
+        }
+    }
+
+
 }
