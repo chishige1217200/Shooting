@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public Rigidbody rb;
+    public Rigidbody2D rb;
 
     void Start()
     {
-        rb = this.gameObject.GetComponent<Rigidbody>();
+        rb = this.gameObject.GetComponent<Rigidbody2D>();
         TimeOut(5000);
     }
 
@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
         radian = radian * (float)(Math.PI / 180); //ラジアン(pi)に変換
         force_x = speed * (float)Math.Cos(radian); //x軸方向の力を計算
         force_y = speed * (float)Math.Sin(radian); //z軸方向の力を計算
-        rb.AddForce(force_x, force_y, 0, ForceMode.VelocityChange); //瞬間的に弾に力を加える(質量無視)
+        rb.AddForce(new Vector2(force_x, force_y), ForceMode2D.Impulse); //瞬間的に弾に力を加える(質量無視)
     }
 
     async void TimeOut(int time)
@@ -28,9 +28,8 @@ public class Bullet : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    /*void OnTriggerEnter()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(this.gameObject);
-    }*/
-    //ゲームタグを指定すること！弾同士が衝突します！
+        if(gameObject.tag == "Enemy") Destroy(this.gameObject);
+    }
 }
