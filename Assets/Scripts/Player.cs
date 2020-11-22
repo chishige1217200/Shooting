@@ -4,7 +4,14 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameObject Die;
+    public UIManager _UIManager;
     float speed = 0.05f; //標準移動速度
+
+    void Start()
+    {
+        _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+    }
+
 
     void Update ()
     {
@@ -55,6 +62,7 @@ public class Player : MonoBehaviour
         if(other.tag == "Enemy" || other.tag == "EnemyBullet")
         {
             Instantiate(Die);
+            _UIManager.ChangeGameOverPanel();
             Debug.Log("Clash");
             Destroy(this.gameObject);
         }
