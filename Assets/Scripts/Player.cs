@@ -12,7 +12,6 @@ public class Player : MonoBehaviour
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
     }
 
-
     void Update ()
     {
         //移動処理
@@ -68,5 +67,9 @@ public class Player : MonoBehaviour
         }
     }
 
+    public Vector2 PlayerPosition()
+    {
+        return new Vector2(this.transform.position.x, this.transform.position.y); //プレイヤーの現在位置をreturn
+    }
 
 }
