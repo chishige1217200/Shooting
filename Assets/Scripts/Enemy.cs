@@ -21,10 +21,14 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
-        if (stageStrength[nowStage] == 0) nowStage++; //そのステージの体力がなくなったら次のステージへ
+        if (stageStrength[nowStage] == 0)
+        {
+            nowStage++; //そのステージの体力がなくなったら次のステージへ
+            GoPosition(1, 0, 1); //初期位置に復帰
+        }
         if (nowStage == stageCount)
         {
-            _UIManager.ChangeGameClearPanel();
+            _UIManager.ChangeGameClearPanel(); //ゲームクリア画面の表示
             Destroy(this.gameObject); //最終ステージをクリアしたらDestroy
         }
     }

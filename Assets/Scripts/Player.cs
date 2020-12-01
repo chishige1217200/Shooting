@@ -61,7 +61,7 @@ public class Player : MonoBehaviour
         if (other.tag == "Enemy" || other.tag == "EnemyBullet")
         {
             Instantiate(Die);
-            _UIManager.ChangeGameOverPanel();
+            _UIManager.ChangeGameOverPanel(); //ゲームオーバー画面の表示
             Debug.Log("Clash");
             Destroy(this.gameObject);
         }
