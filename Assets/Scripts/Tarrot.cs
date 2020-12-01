@@ -2,37 +2,33 @@ using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class Tarrot : MonoBehaviour
-{
+public class Tarrot : MonoBehaviour {
     public GameObject center; //円運動の中心になるObject
     public GameObject bulletPrefab; //弾オブジェクトのプレハブ
-    private GameObject clone;       //Instantiateされたオブジェクト
-    private Bullet bulletScript;    //スクリプトのインスタンス
+    private GameObject clone; //Instantiateされたオブジェクト
+    private Bullet bulletScript; //スクリプトのインスタンス
     private float speed = 60; //円運動速度
     private bool shotFlag = false; //発射中はtrue
 
-    void Update ()
-    {
+    void Update () {
         float z;
         transform.RotateAround (center.transform.position, transform.forward, speed * Time.deltaTime); //回転
         z = this.transform.localEulerAngles.z; //タロット回転角度取得
         //Debug.Log(z);
         if (Input.GetKey (KeyCode.LeftArrow) && speed < 0 || Input.GetKey (KeyCode.RightArrow) && speed > 0) speed = -speed; //回転方向反転
         if (Input.GetKey (KeyCode.UpArrow) && speed < 0 || Input.GetKey (KeyCode.DownArrow) && speed > 0) speed = -speed; //回転方向反転
-        if (Input.GetKey (KeyCode.Return))
-        {
-            if(!shotFlag) MakeBullet(10f, z); //弾発射
+        if (Input.GetKey (KeyCode.Return)) {
+            if (!shotFlag) MakeBullet (10f, z); //弾発射
         }
     }
 
-    public async void MakeBullet(float speed, float radian)
-    {
+    public async void MakeBullet (float speed, float radian) {
         shotFlag = true; //連射防止
-        clone = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity); //弾オブジェクトをクローン
-        bulletScript = clone.GetComponent<Bullet>(); //スクリプト情報取得
-        bulletScript.Shot(speed, radian); //発射方向に力を加える
+        clone = Instantiate (bulletPrefab, this.transform.position, Quaternion.identity); //弾オブジェクトをクローン
+        bulletScript = clone.GetComponent<Bullet> (); //スクリプト情報取得
+        bulletScript.Shot (speed, radian); //発射方向に力を加える
 
-        await Task.Delay(100); //0.1秒毎にしか発射できない
+        await Task.Delay (100); //0.1秒毎にしか発射できない
         shotFlag = false; //連射防止
     }
 }
