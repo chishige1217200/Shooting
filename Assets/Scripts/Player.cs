@@ -4,7 +4,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public GameObject Die;
-    public UIManager _UIManager;
+    private UIManager _UIManager;
     float speed = 0.05f; //標準移動速度
 
     void Start()
