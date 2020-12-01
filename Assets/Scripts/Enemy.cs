@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
         stageStrength = new int[stageCount];
         stageStrength[0] = 10;
         stageStrength[1] = 10;
+        //GoPosition(-1, 0, 5);
     }
 
     void Update()
@@ -32,5 +34,10 @@ public class Enemy : MonoBehaviour
         if (other.tag == "MyBullet")
             Debug.Log("Hit!");
         stageStrength[nowStage]--;
+    }
+
+    void GoPosition(float x, float y, float time) //ワールド座標(x, y)にtime秒で移動
+    {
+        transform.DOMove(new Vector3(x, y, 0), time);
     }
 }
