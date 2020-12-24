@@ -36,8 +36,10 @@ public class Enemy : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "MyBullet")
+        {
             Debug.Log("Hit!");
-        stageStrength[nowStage]--;
+            stageStrength[nowStage]--;
+        }
     }
 
     void GoPosition(float x, float y, float time) //ワールド座標(x, y)にtime秒で移動

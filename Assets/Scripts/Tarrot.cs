@@ -19,10 +19,7 @@ public class Tarrot : MonoBehaviour
         //Debug.Log(z);
         if (Input.GetKey(KeyCode.LeftArrow) && speed < 0 || Input.GetKey(KeyCode.RightArrow) && speed > 0) speed = -speed; //回転方向反転
         if (Input.GetKey(KeyCode.UpArrow) && speed < 0 || Input.GetKey(KeyCode.DownArrow) && speed > 0) speed = -speed; //回転方向反転
-        if (Input.GetKey(KeyCode.Return))
-        {
-            if (!shotFlag) MakeBullet(10f, z); //弾発射
-        }
+        if (Input.GetKey(KeyCode.Return)) if (!shotFlag) MakeBullet(10f, z); //弾発射
     }
 
     public async void MakeBullet(float speed, float radian)
