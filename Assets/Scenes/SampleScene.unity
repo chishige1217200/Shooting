@@ -284,6 +284,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageCount: 2
   stageStrength: 
+  stageFlag: 
+  enemyBullet: {fileID: 2810312001834270354, guid: f54a15ec1c17d418695c05defec67ce1,
+    type: 3}
 --- !u!1 &183211216
 GameObject:
   m_ObjectHideFlags: 0
