@@ -60,3 +60,7 @@ crashlytics-build.properties
 
 # User Settings
 *.wav
+*.mp3
+
+# MacOS Tempfile
+.DS_Store
