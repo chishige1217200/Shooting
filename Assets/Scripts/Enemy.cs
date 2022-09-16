@@ -80,9 +80,16 @@ public class Enemy : MonoBehaviour
         Debug.Log("Start.");
         while (nowStage == 1)
         {
-            for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
             {
-                // ここで弾を発射したい
+                int a = UnityEngine.Random.Range(0, 46);
+                for (int i = 0; i < 4; i++)
+                {
+                    GameObject bullet = Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
+                    ProgramableBullet pb = bullet.GetComponent<ProgramableBullet>();
+                    yield return null;
+                    pb.Shot(10f, 90 * i + a);
+                }
                 yield return new WaitForSeconds(0.5f);
             }
 
