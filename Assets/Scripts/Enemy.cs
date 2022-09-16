@@ -7,18 +7,20 @@ public class Enemy : MonoBehaviour
 {
     private int strength; //合計体力
     public int stageCount = 2; //動作ステージ数
-    private int nowStage
+    public int nowStage
     {
         get
         {
-            return nowStage;
+            return _nowStage;
         }
         set
         {
-            nowStage = value;
-            StageAction(nowStage);
+            _nowStage = value;
+            StageAction(_nowStage);
         }
     } //現在実行中のステージ
+
+    private int _nowStage = 0;
     public int[] stageStrength; //特定動作中の体力（displayed）
     private UIManager _UIManager;
     public GameObject enemyBullet;
@@ -31,14 +33,11 @@ public class Enemy : MonoBehaviour
     {
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         stageStrength = new int[stageCount];
-        for (int i = 0; i < stageCount; i++)
-        {
-            stageStrength[i] = 10;
-        }
+
+        stageStrength[0] = 10;
+        stageStrength[1] = 50;
 
         nowStage = 0;
-
-        //GoPosition(-1, 0, 5);
     }
 
     void Update()
@@ -59,11 +58,39 @@ public class Enemy : MonoBehaviour
     {
         if (nowStage == 0)
         {
-
+            StartCoroutine("Action0");
         }
         if (nowStage == 1)
         {
+            StartCoroutine(DelayCoroutine(1000, () =>
+            {
+                StartCoroutine("Action1");
+            }));
+        }
+    }
 
+    private IEnumerator Action0()
+    {
+        yield return null;
+        yield break;
+    }
+
+    private IEnumerator Action1()
+    {
+        Debug.Log("Start.");
+        while (nowStage == 1)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                // ここで弾を発射したい
+                yield return new WaitForSeconds(0.5f);
+            }
+
+            int x = UnityEngine.Random.Range(-4, 5);
+            int y = UnityEngine.Random.Range(-4, 5);
+
+            transform.DOMove(new Vector3(x, y, 0), 0.5f);
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
