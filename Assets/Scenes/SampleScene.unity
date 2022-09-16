@@ -285,8 +285,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d0b895d863c4f81b48d61d9023ada1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageCount: 2
-  stageStrength: 
+  stageCount: 4
+  stageStrength: 0a0000001e0000001400000028000000
   enemyBullet: {fileID: 2810312001834270354, guid: f54a15ec1c17d418695c05defec67ce1,
     type: 3}
 --- !u!1 &183211216
@@ -1959,6 +1959,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Die: {fileID: 4290305742802893929, guid: dd03e3ab1b2ed410da62a2cea00eb2bb, type: 3}
+  life: 3
 --- !u!58 &1828921648
 CircleCollider2D:
   m_ObjectHideFlags: 0

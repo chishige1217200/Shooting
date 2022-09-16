@@ -6,7 +6,7 @@ using DG.Tweening;
 public class Enemy : MonoBehaviour
 {
     private int strength; //合計体力
-    public int stageCount = 2; //動作ステージ数
+    public int stageCount; //動作ステージ数
     public int nowStage
     {
         get
@@ -16,7 +16,12 @@ public class Enemy : MonoBehaviour
         set
         {
             _nowStage = value;
-            StageAction(_nowStage);
+            if (_nowStage == stageCount)
+            {
+                _UIManager.ChangeGameClearPanel(); //ゲームクリア画面の表示
+                Destroy(this.gameObject); //最終ステージをクリアしたらDestroy
+            }
+            else StageAction(_nowStage);
         }
     } //現在実行中のステージ
 
@@ -32,10 +37,6 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        stageStrength = new int[stageCount];
-
-        stageStrength[0] = 10;
-        stageStrength[1] = 50;
 
         nowStage = 0;
     }
@@ -46,11 +47,6 @@ public class Enemy : MonoBehaviour
         {
             nowStage++; //そのステージの体力がなくなったら次のステージへ
             GoPosition(1, 0, 1); //初期位置に復帰
-        }
-        if (nowStage == stageCount)
-        {
-            _UIManager.ChangeGameClearPanel(); //ゲームクリア画面の表示
-            Destroy(this.gameObject); //最終ステージをクリアしたらDestroy
         }
     }
 
@@ -65,6 +61,20 @@ public class Enemy : MonoBehaviour
             StartCoroutine(DelayCoroutine(1000, () =>
             {
                 StartCoroutine("Action1");
+            }));
+        }
+        if (nowStage == 2)
+        {
+            StartCoroutine(DelayCoroutine(1000, () =>
+            {
+                StartCoroutine("Action2");
+            }));
+        }
+        if (nowStage == 3)
+        {
+            StartCoroutine(DelayCoroutine(1000, () =>
+            {
+                StartCoroutine("Action3");
             }));
         }
     }
@@ -93,11 +103,79 @@ public class Enemy : MonoBehaviour
                 yield return new WaitForSeconds(0.5f);
             }
 
-            int x = UnityEngine.Random.Range(-4, 5);
+            int x = UnityEngine.Random.Range(0, 5);
             int y = UnityEngine.Random.Range(-4, 5);
 
             transform.DOMove(new Vector3(x, y, 0), 0.5f);
             yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    private IEnumerator Action2()
+    {
+        Debug.Log("Start.");
+        while (nowStage == 2)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                int a = UnityEngine.Random.Range(0, 23);
+                for (int i = 0; i < 8; i++)
+                {
+                    GameObject bullet = Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
+                    ProgramableBullet pb = bullet.GetComponent<ProgramableBullet>();
+                    yield return null;
+                    pb.Shot(10f, 45 * i + a);
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            int x = UnityEngine.Random.Range(0, 5);
+            int y = UnityEngine.Random.Range(-4, 5);
+
+            transform.DOMove(new Vector3(x, y, 0), 1f);
+            yield return new WaitForSeconds(0.2f);
+        }
+    }
+
+    private IEnumerator Action3()
+    {
+        Debug.Log("Start.");
+        int y = 2;
+        while (nowStage == 3)
+        {
+            Vector3 c1 = new Vector3(transform.position.x, transform.position.y + 1, transform.position.z);
+            Vector3 c2 = new Vector3(transform.position.x, transform.position.y - 1, transform.position.z);
+            for (int j = 0; j < 8; j++)
+            {
+                for (int i = 0; i < 8; i++)
+                {
+                    GameObject bullet = Instantiate(enemyBullet, c1, Quaternion.identity);
+                    ProgramableBullet pb = bullet.GetComponent<ProgramableBullet>();
+                    GameObject bullet2 = Instantiate(enemyBullet, c2, Quaternion.identity);
+                    ProgramableBullet pb2 = bullet2.GetComponent<ProgramableBullet>();
+                    yield return null;
+                    pb.Shot(5f, 180 + i * 10);
+                    pb2.Shot(5f, 180 - i * 10);
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            for (int j = 0; j < 8; j++)
+            {
+                int a = UnityEngine.Random.Range(0, 23);
+                for (int i = 0; i < 8; i++)
+                {
+                    GameObject bullet = Instantiate(enemyBullet, this.transform.position, Quaternion.identity);
+                    ProgramableBullet pb = bullet.GetComponent<ProgramableBullet>();
+                    yield return null;
+                    pb.Shot(10f, 45 * i + a);
+                }
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            transform.DOMove(new Vector3(2, y, 0), 1f);
+            y *= -1;
+            yield return new WaitForSeconds(1f);
         }
     }
 

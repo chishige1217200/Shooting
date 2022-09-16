@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
     public GameObject Die;
     private UIManager _UIManager;
     float speed = 0.05f; //標準移動速度
+    public int life = 3;
 
     void Start()
     {
@@ -45,19 +46,19 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.UpArrow))
         {
             this.transform.position += new Vector3(0, speed, 0);
         }
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             this.transform.position -= new Vector3(speed, 0, 0);
         }
-        if (Input.GetKey(KeyCode.S))
+        if (Input.GetKey(KeyCode.DownArrow))
         {
             this.transform.position -= new Vector3(0, speed, 0);
         }
-        if (Input.GetKey(KeyCode.D))
+        if (Input.GetKey(KeyCode.RightArrow))
         {
             this.transform.position += new Vector3(speed, 0, 0);
         }
@@ -68,9 +69,14 @@ public class Player : MonoBehaviour
         if (other.CompareTag("Enemy") || other.CompareTag("EnemyBullet"))
         {
             Instantiate(Die);
-            _UIManager.ChangeGameOverPanel(); //ゲームオーバー画面の表示
+
             Debug.Log("Clash");
-            Destroy(this.gameObject);
+            life--;
+            if (life == 0)
+            {
+                _UIManager.ChangeGameOverPanel(); //ゲームオーバー画面の表示
+                Destroy(this.gameObject);
+            }
         }
     }
 
