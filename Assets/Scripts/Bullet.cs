@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
@@ -9,7 +8,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb = this.gameObject.GetComponent<Rigidbody2D>();
-        TimeOut(5000);
+        Invoke("TimeOut", 5);
     }
 
     public void Shot(float speed, float radian)
@@ -22,9 +21,8 @@ public class Bullet : MonoBehaviour
         rb.AddForce(new Vector2(force_x, force_y), ForceMode2D.Impulse); //瞬間的に弾に力を加える(質量無視)
     }
 
-    async void TimeOut(int time)
+    void TimeOut()
     {
-        await Task.Delay(time);
         Destroy(this.gameObject);
     }
 

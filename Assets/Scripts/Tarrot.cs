@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 
 public class Tarrot : MonoBehaviour
@@ -10,7 +10,11 @@ public class Tarrot : MonoBehaviour
     private Bullet bulletScript; //スクリプトのインスタンス
     private float speed = 60; //円運動速度
     private bool shotFlag = false; //発射中はtrue
-
+    private IEnumerator DelayCoroutine(float miliseconds, Action action)
+    {
+        yield return new WaitForSeconds(miliseconds / 1000f);
+        action?.Invoke();
+    }
     void Update()
     {
         float z;
@@ -22,14 +26,16 @@ public class Tarrot : MonoBehaviour
         if (Input.GetKey(KeyCode.Return)) if (!shotFlag) MakeBullet(10f, z); //弾発射
     }
 
-    public async void MakeBullet(float speed, float radian)
+    public void MakeBullet(float speed, float radian)
     {
         shotFlag = true; //連射防止
         clone = Instantiate(bulletPrefab, this.transform.position, Quaternion.identity); //弾オブジェクトをクローン
         bulletScript = clone.GetComponent<Bullet>(); //スクリプト情報取得
         bulletScript.Shot(speed, radian); //発射方向に力を加える
 
-        await Task.Delay(100); //0.1秒毎にしか発射できない
-        shotFlag = false; //連射防止
+        StartCoroutine(DelayCoroutine(100, () =>
+        {
+            shotFlag = false; //連射防止
+        }));
     }
 }

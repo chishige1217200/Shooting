@@ -15,26 +15,15 @@ public class Player : MonoBehaviour
     void Update()
     {
         //移動処理
-        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            speed /= 2; //Shiftキー押下中は移動速度が1/2倍
+            speed = 0.025f; //Shiftキー押下中は移動速度が1/2倍
         }
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.RightShift))
         {
-            this.transform.position += new Vector3(0, speed, 0);
+            speed = 0.05f; //移動速度初期化（標準移動速度に従う）
         }
-        if (Input.GetKey(KeyCode.A))
-        {
-            this.transform.position -= new Vector3(speed, 0, 0);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            this.transform.position -= new Vector3(0, speed, 0);
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            this.transform.position += new Vector3(speed, 0, 0);
-        }
+
         //移動範囲制限設定
         if (this.transform.position.y > 4.5f)
         {
@@ -52,13 +41,31 @@ public class Player : MonoBehaviour
         {
             this.transform.position = new Vector3(-8.5f, this.transform.position.y, this.transform.position.z);
         }
+    }
 
-        speed = 0.05f; //移動速度初期化（標準移動速度に従う）
+    void FixedUpdate()
+    {
+        if (Input.GetKey(KeyCode.W))
+        {
+            this.transform.position += new Vector3(0, speed, 0);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            this.transform.position -= new Vector3(speed, 0, 0);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            this.transform.position -= new Vector3(0, speed, 0);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            this.transform.position += new Vector3(speed, 0, 0);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Enemy" || other.tag == "EnemyBullet")
+        if (other.CompareTag("Enemy") || other.CompareTag("EnemyBullet"))
         {
             Instantiate(Die);
             _UIManager.ChangeGameOverPanel(); //ゲームオーバー画面の表示

@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
@@ -7,22 +7,36 @@ public class Enemy : MonoBehaviour
 {
     private int strength; //合計体力
     public int stageCount = 2; //動作ステージ数
-    private int nowStage = 0; //現在実行中のステージ
+    private int nowStage
+    {
+        get
+        {
+            return nowStage;
+        }
+        set
+        {
+            nowStage = value;
+            StageAction(nowStage);
+        }
+    } //現在実行中のステージ
     public int[] stageStrength; //特定動作中の体力（displayed）
-    public bool[] stageFlag; //特定動作中のループフラグ
     private UIManager _UIManager;
     public GameObject enemyBullet;
-
+    private IEnumerator DelayCoroutine(float miliseconds, Action action)
+    {
+        yield return new WaitForSeconds(miliseconds / 1000f);
+        action?.Invoke();
+    }
     void Start()
     {
         _UIManager = GameObject.Find("Canvas").GetComponent<UIManager>();
         stageStrength = new int[stageCount];
-        stageFlag = new bool[stageCount];
         for (int i = 0; i < stageCount; i++)
         {
             stageStrength[i] = 10;
-            stageFlag[i] = false;
         }
+
+        nowStage = 0;
 
         //GoPosition(-1, 0, 5);
     }
@@ -39,14 +53,9 @@ public class Enemy : MonoBehaviour
             _UIManager.ChangeGameClearPanel(); //ゲームクリア画面の表示
             Destroy(this.gameObject); //最終ステージをクリアしたらDestroy
         }
-        if (!stageFlag[nowStage])
-        {
-            stageFlag[nowStage] = true;
-            StageAction(nowStage);
-        }
     }
 
-    async void StageAction(int nowStage)
+    void StageAction(int nowStage)
     {
         if (nowStage == 0)
         {
